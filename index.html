@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StopWatch</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 100%;
+        height: 100vh;
+        background-image: linear-gradient(
+          to bottom,
+          rgb(185, 185, 19),
+          rgb(14, 14, 189)
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      section {
+        width: 20rem;
+        height: 25rem;
+        border: 1px solid yellow;
+        padding: 1.5rem;
+        background-color: transparent;
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        /* display: flex;
+        justify-content: center;
+        align-items: center; */
+      }
+      #minute,
+      #second,
+      #divider {
+        font-size: 3.5rem;
+        color: wheat;
+        text-align: center;
+        padding-bottom: 0.5rem;
+        display: inline;
+        margin-left: 2rem;
+      }
+      button {
+        height: 3rem;
+        width: 4rem;
+        border-radius: 10px;
+        /*  */
+        /* background-color: ; */
+        background-color: transparent;
+        margin: 10px;
+        transition: all 0.1s linear;
+      }
+      button:hover {
+        background-color: rgba(255, 255, 0, 0.768);
+        transform: scale(1.2);
+      }
+      #minute {
+        margin-left: 4rem;
+      }
+      .lap {
+        width: 17rem;
+        height: 10rem;
+        border: 1px solid black;
+        overflow-y: auto;
+      }
+      .lap::-webkit-scrollbar {
+        /* background-color: aqua; */
+        width: 0.7rem;
+      }
+      .lap::-webkit-scrollbar-track {
+        background-color: blueviolet;
+      }
+      .lap::-webkit-scrollbar-thumb {
+        background-color: yellow;
+        border-radius: 30px;
+      }
+      p {
+        font-size: 1.5rem;
+        color: white;
+        /* text-align: center; */
+        /* padding-bottom: 0.5rem; */
+        display: inline;
+        /*margin-left: 2rem;*/
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <p id="minute">0</p>
+      <p id="divider">:</p>
+      <p id="second">0</p>
+      <div class="button">
+        <button id="Start">Start</button>
+        <button id="Stop">Stop</button>
+        <button id="Reset">Reset</button>
+        <button id="clear">clear</button>
+        <button id="GetTime">GetTime</button>
+        <div class="lap"></div>
+      </div>
+    </section>
+
+    <script>
+      let minute = document.getElementById("minute");
+      let second = document.getElementById("second");
+      let start = document.getElementById("start");
+      let count = 0;
+      let intervalId;
+      // start=
+      let min = 0;
+      const startCount = () => {
+        intervalId = setInterval(() => {
+          second.innerText = count++;
+          if (count === 60) {
+            count = 0;
+            minute.innerText = ++min;
+          }
+        }, 1000);
+      };
+
+      document.querySelector("#Start").addEventListener("click", () => {
+        startCount();
+      });
+
+      // stop
+      const stoopWatch = () => {
+        clearInterval(intervalId);
+      };
+
+      document.getElementById("Stop").addEventListener("click", () => {
+        stoopWatch();
+      });
+
+      // restart
+      const restartWatch = () => {
+        count = 0;
+        second.innerText = count;
+        clearInterval(intervalId);
+      };
+
+      document.getElementById("Reset").addEventListener("click", () => {
+        restartWatch();
+      });
+
+      // GetTIme
+
+      const lap = () => {
+        let append = document.createElement("p");
+        let appendMin = document.createElement("p");
+        append.classList.add("new");
+        appendMin.classList.add("new");
+
+        document
+          .querySelector(".lap")
+          .appendChild(appendMin).innerText = `  ${min}:`;
+        document.querySelector(".lap").appendChild(append).innerText = `  ${
+          count - 1
+        }\n`;
+      };
+
+      document.getElementById("GetTime").addEventListener("click", () => {
+        lap();
+      });
+
+      // clear
+      const clearLap = () => {
+        document.querySelector(".lap").innerHTML = " ";
+      };
+      document.getElementById("clear").addEventListener("click", () => {
+        clearLap();
+      });
+    </script>
+  </body>
+</html>
